@@ -254,7 +254,6 @@ Examples:
                 #   3. Both operations: pdf_to_image.py doc.pdf -e (extracts) + converts all pages
                 #   4. Both with specific pages: pdf_to_image.py doc.pdf -e -p 1 3
                 print(f"\nConverting PDF pages to {args.format.upper()} images...")
-                print(f"\nConverting PDF pages to {args.format.upper()} images...")
                 paths = converter.convert_pages_to_images(
                     output_dir=args.output,
                     pages=args.pages,
