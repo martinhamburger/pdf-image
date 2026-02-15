@@ -119,9 +119,9 @@ python pdf_to_image.py document.pdf -d 120 -f jpg
 
 #### 处理超大PDF（100+页）
 ```bash
-# 分批处理
-python pdf_to_image.py large.pdf -p 1-20 -o batch1
-python pdf_to_image.py large.pdf -p 21-40 -o batch2
+# 分批处理，注意页码是空格分隔的
+python pdf_to_image.py large.pdf -p 1 2 3 4 5 -o batch1
+python pdf_to_image.py large.pdf -p 6 7 8 9 10 -o batch2
 # ... 依此类推
 ```
 

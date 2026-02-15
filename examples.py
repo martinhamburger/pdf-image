@@ -27,14 +27,23 @@ def example_1_convert_all_pages(pdf_path):
 
 def example_2_convert_specific_pages(pdf_path):
     """Convert only specific pages."""
-    print("\nExample 2: Converting specific pages (1, 3, 5)")
+    print("\nExample 2: Converting specific pages")
     print("-" * 50)
     
     with PDFImageConverter(pdf_path) as converter:
-        # Convert only pages 1, 3, and 5
+        # Select pages that exist in the PDF
+        pages_to_convert = [1]
+        if converter.page_count >= 3:
+            pages_to_convert.append(3)
+        if converter.page_count >= 5:
+            pages_to_convert.append(5)
+        
+        print(f"Converting pages: {pages_to_convert}")
+        
+        # Convert only selected pages
         image_paths = converter.convert_pages_to_images(
             output_dir="example_output/selected_pages",
-            pages=[1, 3, 5],
+            pages=pages_to_convert,
             dpi=300,
             image_format="png"
         )
@@ -130,16 +139,21 @@ def example_6_wechat_workflow(pdf_path):
         )
         print(f"   Extracted {len(images)} images")
         
-        # Convert specific content pages
+        # Convert specific content pages if available
         if converter.page_count >= 3:
             print("\n3. Converting content pages...")
-            content = converter.convert_pages_to_images(
-                output_dir="example_output/wechat",
-                pages=[2, 3],
-                dpi=300,
-                image_format="png"
-            )
-            print(f"   Content pages: {len(content)}")
+            # Convert up to 2 additional pages
+            content_pages = list(range(2, min(4, converter.page_count + 1)))
+            if content_pages:
+                content = converter.convert_pages_to_images(
+                    output_dir="example_output/wechat",
+                    pages=content_pages,
+                    dpi=300,
+                    image_format="png"
+                )
+                print(f"   Content pages: {len(content)}")
+        else:
+            print("\n3. PDF has only 1-2 pages, skipping additional content pages")
         
         print("\n✓ All images ready for WeChat Official Account!")
         print(f"   Check folder: example_output/wechat/")

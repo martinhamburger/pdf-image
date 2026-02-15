@@ -245,8 +245,15 @@ Examples:
                     print(f"\n... and {converter.page_count - 5} more pages")
                 return
             
-            # Convert pages (default behavior if not only extracting)
+            # Convert pages (default behavior unless only extraction is requested)
             if not args.extract or args.pages is not None:
+                # If pages are specified OR extract-only mode is not set, convert pages
+                # This allows: 
+                #   1. Normal conversion: pdf_to_image.py doc.pdf
+                #   2. Specific pages: pdf_to_image.py doc.pdf -p 1 3
+                #   3. Both operations: pdf_to_image.py doc.pdf -e (extracts) + converts all pages
+                #   4. Both with specific pages: pdf_to_image.py doc.pdf -e -p 1 3
+                print(f"\nConverting PDF pages to {args.format.upper()} images...")
                 print(f"\nConverting PDF pages to {args.format.upper()} images...")
                 paths = converter.convert_pages_to_images(
                     output_dir=args.output,
